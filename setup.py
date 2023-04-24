@@ -8,6 +8,7 @@ setup(
         "pandas",
         "numpy",
         "matplotlib",
+        "seaborn",
         "scikit-learn",
         "xgboost",
         "catboost",
