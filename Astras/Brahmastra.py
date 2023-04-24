@@ -129,9 +129,11 @@ def report_print(model, X, y):
                 f"Classification Report for \n{classification_report(y_test, y_pred)}"
             )
             cm = confusion_matrix(y_test, y_pred)
+            plt.figure.figsize = (5, 5)
             sns.heatmap(cm, annot=True, fmt="d")
             plt.show()
             tpr, fpr, thresholds = roc_curve(y_test, y_pred)
+            plt.figure.figsize = (5, 5)
             plt.plot(tpr, fpr, label="ROC")
             plt.plot([0, 1], [0, 1], "k--")
             plt.fill_between(tpr, fpr, alpha=0.5, color="blue")

@@ -1,7 +1,17 @@
 # Importing the Regression Libraries
-from sklearn import *
-import xgboost
-import catboost
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.svm import SVR
+from xgboost import XGBRegressor
+from catboost import CatBoostRegressor
+
+# Importing the metrics and preprocessing libraries for regression
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+
 
 # Importing Basic Libraries
 import numpy as np
@@ -24,17 +34,33 @@ def regression_model_comparison(X, y, scaling=None):
     Returns:
         pd.DataFrame: The dataframe with the metrics of the models.
     """
-    X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, random_state=69)
+    # Making a list of model names and model objects
+
+    model_list = [
+        ("Linear Regression", LinearRegression()),
+        ("Ridge Regression", Ridge()),
+        ("Lasso Regression", Lasso()),
+        ("Decision Tree", DecisionTreeRegressor()),
+        ("Random Forest", RandomForestRegressor()),
+        ("KNN", KNeighborsRegressor()),
+        ("SVR", SVR()),
+        ("XGBoost", XGBRegressor()),
+        ("CatBoost", CatBoostRegressor(verbose=False)),
+    ]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, random_state=69
+    )
 
     numerical_features = [feature for feature in X.columns if X[feature].nunique() > 10]
-    
+
     if scaling == "ss":
-        sc = sklearn.preprocessing.StandardScaler()
+        sc = StandardScaler()
         X_train[numerical_features] = sc.fit_transform(X_train[numerical_features])
         X_test[numerical_features] = sc.transform(X_test[numerical_features])
         pass
     elif scaling == "mm":
-        mm = sklearn.preprocessing.MinMaxScaler()
+        mm = MinMaxScaler()
         X_train[numerical_features] = mm.fit_transform(X_train[numerical_features])
         X_test[numerical_features] = mm.transform(X_test[numerical_features])
         pass
@@ -48,10 +74,10 @@ def regression_model_comparison(X, y, scaling=None):
         df_metrics[name] = {
             "Train Score": model.score(X_train, y_train),
             "Test Score": model.score(X_test, y_test),
-            "MSE": sklearn.metrics.mean_squared_error(y_test, y_pred),
-            "MAE": sklearn.metrics.mean_absolute_error(y_test, y_pred),
-            "RMSE": np.sqrt(sklearn.metrics.mean_squared_error(y_test, y_pred)),
-            "R2 Score": sklearn.metrics.r2_score(y_test, y_pred),
+            "MSE": mean_squared_error(y_test, y_pred),
+            "MAE": mean_absolute_error(y_test, y_pred),
+            "RMSE": np.sqrt(mean_squared_error(y_test, y_pred)),
+            "R2 Score": r2_score(y_test, y_pred),
         }
     # Comparing the models
     comparison = pd.DataFrame(df_metrics).T
