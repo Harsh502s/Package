@@ -1,3 +1,7 @@
+# Importing the warnings
+import warnings as w
+
+w.filterwarnings("ignore")
 # Importing the Classification Libraries
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -25,15 +29,12 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 # Importing Basic Libraries
 
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 pd.set_option("display.float_format", lambda x: "%.2f" % x)
-import warnings as w
 
-w.filterwarnings("ignore")
 
 # List of tuples of model name and models
 
@@ -102,8 +103,8 @@ def classification_model_comparison(X, y, scaling=None):
 
 
 def report_print(model, X, y):
-    """This function takes in the model name, X and y dataframes and prints the classification report, confusion matrix and ROC curve."""
-
+    """This function takes in the model name, X and y dataframes and prints
+    the classification report, confusion matrix and ROC curve."""
     model_list = [
         ("LR", LogisticRegression()),
         ("DT", DecisionTreeClassifier()),
@@ -125,15 +126,27 @@ def report_print(model, X, y):
             print(f"Model Name: {model}")
             model_object.fit(X_train, y_train)
             y_pred = model_object.predict(X_test)
+
+            # Classification Report
+
             print(
                 f"Classification Report for \n{classification_report(y_test, y_pred)}"
             )
+
+            # Confusion Matrix
+            
+            plt.figure(figsize=(6, 6))
             cm = confusion_matrix(y_test, y_pred)
-            plt.figure.figsize = (5, 5)
             sns.heatmap(cm, annot=True, fmt="d")
+            plt.xlabel("Predicted")
+            plt.ylabel("Truth")
+            plt.title("Confusion Matrix")
             plt.show()
+
+            # ROC Curve
+            
+            plt.figure(figsize=(6, 6))
             tpr, fpr, thresholds = roc_curve(y_test, y_pred)
-            plt.figure.figsize = (5, 5)
             plt.plot(tpr, fpr, label="ROC")
             plt.plot([0, 1], [0, 1], "k--")
             plt.fill_between(tpr, fpr, alpha=0.5, color="blue")
