@@ -8,13 +8,17 @@ setup(
         "pandas",
         "numpy",
         "matplotlib",
-        "scikit-learn"
+        "scikit-learn",
+        "xgboost",
+        "catboost",
     ],
-    author="Your Name",
+    author="Harshit Singh",
+    author_email="harsh502singh@gmail.com",
     description="Package for Classification and Regression",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    python_requires=">=3.8"
 )
