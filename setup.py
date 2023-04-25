@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="Astras",
-    version="0.1",
+    version="0.2",
     packages=find_packages(),
     install_requires=[
         "pandas",
@@ -22,5 +22,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.10",
+    python_requires=">=3.6",
 )
