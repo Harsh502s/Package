@@ -134,7 +134,7 @@ def report_print(model, X, y):
             )
 
             # Confusion Matrix
-            
+
             plt.figure(figsize=(6, 6))
             cm = confusion_matrix(y_test, y_pred)
             sns.heatmap(cm, annot=True, fmt="d")
@@ -144,7 +144,7 @@ def report_print(model, X, y):
             plt.show()
 
             # ROC Curve
-            
+
             plt.figure(figsize=(6, 6))
             tpr, fpr, thresholds = roc_curve(y_test, y_pred)
             plt.plot(tpr, fpr, label="ROC")
